@@ -2,10 +2,6 @@ local Boundary = require 'boundary'
 local Ray = require 'ray'
 
 local canvas
-<<<<<<< HEAD:2d/lot-rays.lua
-=======
-local b, b2
->>>>>>> 9c61ef2bb133e4e681018a8952d8bb5093f66c87:lot.lua
 local rays = {}
 
 local boundaries
@@ -24,16 +20,10 @@ function love.load()
     local centerX = screenWidth / 2
     local centerY = screenHeight / 2
 
-<<<<<<< HEAD:2d/lot-rays.lua
     boundaries = {
         Boundary:new(300, 400, centerX, centerY),
         Boundary:new(300, 400, 100, centerY)
     }
-=======
-    b = Boundary:new(300, 400, centerX, centerY)
-    b2 = Boundary:new(300, 400, 100, centerY)
->>>>>>> 9c61ef2bb133e4e681018a8952d8bb5093f66c87:lot.lua
-
     boundaries = {b, b2}
     for angle = 0, 12 do
         local ray = Ray:new(mouseX, mouseY, angle)
