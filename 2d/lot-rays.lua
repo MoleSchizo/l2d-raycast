@@ -24,7 +24,6 @@ function love.load()
         Boundary:new(300, 400, centerX, centerY),
         Boundary:new(300, 400, 100, centerY)
     }
-    boundaries = {b, b2}
     for angle = 0, 12 do
         local ray = Ray:new(mouseX, mouseY, angle)
         table.insert(rays, ray)
