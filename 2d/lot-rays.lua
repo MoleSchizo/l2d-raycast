@@ -2,13 +2,14 @@ local Boundary = require 'boundary'
 local Ray = require 'ray'
 
 local canvas
-local b
-local rays = {} -- Array to store all the rays
+local rays = {}
+
+local boundaries
 
 function love.load()
     love.window.setTitle("Canvas Example")
     love.graphics.setBackgroundColor(0, 0, 0)
-    
+
     local screenWidth = love.graphics.getWidth()
     local screenHeight = love.graphics.getHeight()
 
@@ -19,7 +20,10 @@ function love.load()
     local centerX = screenWidth / 2
     local centerY = screenHeight / 2
 
-    b = Boundary:new(300, 400, centerX, centerY)
+    boundaries = {
+        Boundary:new(300, 400, centerX, centerY),
+        Boundary:new(300, 400, 100, centerY)
+    }
 
     for angle = 0, 12 do
         local ray = Ray:new(mouseX, mouseY, angle)
@@ -41,18 +45,33 @@ function love.draw()
         love.graphics.setCanvas(canvas)
         love.graphics.clear()
 
-        if b then
-            b:show()
+        for _, boundary in pairs(boundaries) do
+            if boundary then
+                boundary:show()
+            end
         end
 
         for _, ray in ipairs(rays) do
-            local intersection = ray:cast(b)
-            if intersection then
-                love.graphics.setColor(255, 0, 0)
-                love.graphics.circle("fill", intersection.x, intersection.y, 5)
+            local closestIntersection = nil
+            local closestDistance = math.huge
+
+            for _, boundary in ipairs(boundaries) do
+                local intersection = ray:cast(boundary)
+                if intersection then
+                    local distance = ray:distanceTo(intersection)
+                    if distance < closestDistance then
+                        closestDistance = distance
+                        closestIntersection = intersection
+                    end
+                end
             end
 
-            ray:show() -- Show the ray itself
+            if closestIntersection then
+                love.graphics.setColor(255, 0, 0)
+                love.graphics.circle("fill", closestIntersection.x, closestIntersection.y, 5)
+            end
+
+            ray:show(boundaries)
         end
 
         love.graphics.setCanvas()
