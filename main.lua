@@ -43,14 +43,27 @@ function love.draw()
             if boundary then
                 boundary:show()
             end 
-
+        end
+            
+        local closestIntersection = nil
+        local closestDistance = math.huge
+            
+        for _, boundary in ipairs(boundaries) do
             local intersection = ray:cast(boundary)
             if intersection then
-                love.graphics.setColor(255, 0, 0)
-                love.graphics.circle("fill", intersection.x, intersection.y, 5)
+                local distance = ray:distanceTo(intersection)
+                if distance < closestDistance then
+                    closestDistance = distance
+                    closestIntersection = intersection
+                end
             end
         end
-
+            
+        if closestIntersection then
+             love.graphics.setColor(255, 0, 0)
+             love.graphics.circle("fill", closestIntersection.x, closestIntersection.y, 5)
+        end
+        
         ray:show(boundaries)
 
         love.graphics.setCanvas()
