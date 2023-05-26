@@ -35,9 +35,58 @@ function love.load()
 
     local angleStep = fov / rayCount
 
+<<<<<<< HEAD
     for angle = -fov / 2, fov / 2, angleStep do
         local ray = Ray:new(player.x, player.y, math.rad(angle + player.angle))
         table.insert(rays, ray)
+=======
+    boundaries = {b, b2}
+    
+    ray = Ray:new(centerX, 100, 20)
+end
+
+function love.update(dt)
+    local mouseX, mouseY = love.mouse.getPosition()
+    local rayAngle = math.atan2(mouseY - ray.position.y, mouseX - ray.position.x)
+    ray.direction.x = math.cos(rayAngle)
+    ray.direction.y = math.sin(rayAngle)
+end
+
+function love.draw()
+    if canvas then
+        love.graphics.setCanvas(canvas)
+        love.graphics.clear()
+
+        for _, boundary in pairs(boundaries) do
+            if boundary then
+                boundary:show()
+            end 
+        end
+            
+        local closestIntersection = nil
+        local closestDistance = math.huge
+            
+        for _, boundary in ipairs(boundaries) do
+            local intersection = ray:cast(boundary)
+            if intersection then
+                local distance = ray:distanceTo(intersection)
+                if distance < closestDistance then
+                    closestDistance = distance
+                    closestIntersection = intersection
+                end
+            end
+        end
+            
+        if closestIntersection then
+             love.graphics.setColor(255, 0, 0)
+             love.graphics.circle("fill", closestIntersection.x, closestIntersection.y, 5)
+        end
+        
+        ray:show(boundaries)
+
+        love.graphics.setCanvas()
+        love.graphics.draw(canvas)
+>>>>>>> 9c61ef2bb133e4e681018a8952d8bb5093f66c87
     end
 end
 
