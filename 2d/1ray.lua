@@ -1,5 +1,5 @@
 local Boundary = require 'boundary'
-local Ray = require 'ray'
+local Ray = require 'old-ray'
 
 local canvas
 local ray
@@ -28,7 +28,7 @@ end
 
 function love.update(dt)
     local mouseX, mouseY = love.mouse.getPosition()
-    local rayAngle = math.atan2(mouseY - ray.position.y, mouseX - ray.position.x)
+    local rayAngle = math.atan(mouseY - ray.position.y, mouseX - ray.position.x)
     ray.direction.x = math.cos(rayAngle)
     ray.direction.y = math.sin(rayAngle)
 end

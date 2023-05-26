@@ -26,6 +26,7 @@ function Ray:distanceTo(point)
     return math.sqrt(dx * dx + dy * dy)
 end
 
+--- won't work for ./2d/ because stupid me didnt save 
 function Ray:cast(boundaries)
     local closestIntersection = nil
     local closestDistance = math.huge

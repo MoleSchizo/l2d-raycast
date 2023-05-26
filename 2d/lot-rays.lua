@@ -1,5 +1,5 @@
 local Boundary = require 'boundary'
-local Ray = require 'ray'
+local Ray = require 'old-ray'
 
 local canvas
 local rays = {}
