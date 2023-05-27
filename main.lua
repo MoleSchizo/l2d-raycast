@@ -9,6 +9,7 @@ local screenHeight
 local fov = 120
 local rayCount
 local wallHeight = 200
+local rayCount
 
 local player = {
     x = 0,
