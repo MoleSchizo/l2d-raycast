@@ -7,8 +7,8 @@ local rays = {}
 local screenWidth
 local screenHeight
 local fov = 120
-local rayCount = 320
 local wallHeight = 200
+local rayCount
 
 local player = {
     x = 0,
@@ -24,6 +24,7 @@ function love.load()
 
     screenWidth = love.graphics.getWidth()
     screenHeight = love.graphics.getHeight()
+    rayCount = screenWidth
 
     for i = 1, 5 do
         local x1 = math.random(50, screenWidth - 50)
