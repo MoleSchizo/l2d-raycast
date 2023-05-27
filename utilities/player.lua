@@ -60,10 +60,28 @@ function Player:update(dt, walls)
         self.angle = self.angle + self.rotationSpeed
     end
 
-    if not self:checkCollision(walls) then
+    -- Check if the new position collides with any wall
+    local collided = false
+    for _, wall in ipairs(walls) do
+        local x1, y1, x2, y2 = wall.x1, wall.y1, wall.x2, wall.y2
+
+        local minX = math.min(x1, x2)
+        local minY = math.min(y1, y2)
+        local maxX = math.max(x1, x2)
+        local maxY = math.max(y1, y2)
+
+        if self:lineIntersectsRectangle(self.x, self.y, newPlayerX, newPlayerY, minX, minY, maxX, maxY) then
+            collided = true
+            break
+        end
+    end
+
+    -- Only update the player's position if there was no collision
+    if not collided then
         self.x = newPlayerX
         self.y = newPlayerY
     end
 end
+
 
 return Player
