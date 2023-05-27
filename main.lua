@@ -1,4 +1,5 @@
 local Boundary = require 'boundary'
+local Collisions = require 'collision'
 local Ray = require 'ray'
 
 local walls = {}
@@ -46,12 +47,20 @@ function love.load()
 end
 
 function love.update(dt)
+    local newPlayerX = player.x
+    local newPlayerY = player.y
+
     if love.keyboard.isDown("up") then
-        player.x = player.x + player.moveSpeed * math.cos(player.angle)
-        player.y = player.y + player.moveSpeed * math.sin(player.angle)
+        newPlayerX = player.x + player.moveSpeed * math.cos(player.angle)
+        newPlayerY = player.y + player.moveSpeed * math.sin(player.angle)
     elseif love.keyboard.isDown("down") then
-        player.x = player.x - player.moveSpeed * math.cos(player.angle)
-        player.y = player.y - player.moveSpeed * math.sin(player.angle)
+        newPlayerX = player.x - player.moveSpeed * math.cos(player.angle)
+        newPlayerY = player.y - player.moveSpeed * math.sin(player.angle)
+    end
+
+    if not Collisions:checkCollision(newPlayerX, newPlayerY, walls) then
+        player.x = newPlayerX
+        player.y = newPlayerY
     end
 
     if love.keyboard.isDown("left") then
