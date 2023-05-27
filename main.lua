@@ -27,6 +27,8 @@ function love.load()
     screenHeight = love.graphics.getHeight()
     rayCount = screenWidth
 
+    math.randomseed(os.time())
+    
     for i = 1, 5 do
         local x1 = math.random(50, screenWidth - 50)
         local y1 = math.random(50, screenHeight - 50)
