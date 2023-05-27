@@ -2,21 +2,21 @@ local Ray = {}
 Ray.__index = Ray
 
 function Ray:new(x, y, angle)
-  local instance = {}
+  local instance = {
+    position = { 
+      x = x,
+      y = y 
+    },
+
+    direction = { 
+      x = math.cos(angle),
+      y = math.sin(angle)
+    },
+
+    angle = angle
+  }
+  
   setmetatable(instance, self)
-
-  instance.position = {
-    x = x,
-    y = y
-  }
-
-  instance.direction = {
-    x = math.cos(angle),
-    y = math.sin(angle)
-  }
-
-  instance.angle = angle
-
   return instance
 end
 
