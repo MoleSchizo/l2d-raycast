@@ -79,7 +79,7 @@ function love.draw()
     
         if closestIntersection then
             local distance = closestIntersection.distance
-            local correctedDistance = distance * math.cos(math.rad(ray.angle - player.angle))
+            local correctedDistance = distance * math.cos(math.rad(ray.angle + player.angle - screenWidth / 2)) 
             local wallStripHeight = (wallHeight / correctedDistance) * (screenHeight / 4)
     
             local stripX = (i - 1) * stripWidth
@@ -91,7 +91,7 @@ function love.draw()
             love.graphics.setColor(colorValue, colorValue, colorValue)
             love.graphics.rectangle("fill", stripX, stripTopY, stripWidth, wallStripHeight)
         end
-    end     
+    end
 
     love.graphics.setColor(0, 255, 0)
     love.graphics.circle("fill", player.x, player.y, 5)
