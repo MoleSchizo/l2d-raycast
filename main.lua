@@ -7,7 +7,7 @@ local rays = {}
 local screenWidth
 local screenHeight
 local fov = 120
-local rayCount = 320
+local rayCount
 local wallHeight = 200
 
 local player = {
@@ -24,6 +24,7 @@ function love.load()
 
     screenWidth = love.graphics.getWidth()
     screenHeight = love.graphics.getHeight()
+    rayCount = screenWidth
 
     for i = 1, 5 do
         local x1 = math.random(50, screenWidth - 50)
@@ -78,7 +79,7 @@ function love.draw()
     
         if closestIntersection then
             local distance = closestIntersection.distance
-            local correctedDistance = distance * math.cos(math.rad(ray.angle + player.angle - screenWidth / 2))
+            local correctedDistance = distance * math.cos(math.rad(ray.angle - player.angle))
             local wallStripHeight = (wallHeight / correctedDistance) * (screenHeight / 4)
     
             local stripX = (i - 1) * stripWidth
@@ -90,7 +91,7 @@ function love.draw()
             love.graphics.setColor(colorValue, colorValue, colorValue)
             love.graphics.rectangle("fill", stripX, stripTopY, stripWidth, wallStripHeight)
         end
-    end    
+    end     
 
     love.graphics.setColor(0, 255, 0)
     love.graphics.circle("fill", player.x, player.y, 5)
