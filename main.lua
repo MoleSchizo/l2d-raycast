@@ -1,6 +1,6 @@
-local Boundary = require 'boundary'
-local Collisions = require 'collision'
-local Ray = require 'ray'
+local Boundary = require 'utilities.boundary'
+local Ray = require 'utilities.ray'
+local Player = require 'utilities.Player'
 
 local walls = {}
 local rays = {}
@@ -12,17 +12,13 @@ local rayCount
 local wallHeight = 200
 local rayCount
 
-local player = {
-    x = 0,
-    y = 0,
-    angle = 0,
-    moveSpeed = 3,
-    rotationSpeed = math.rad(3)
-}
+local player
 
 function love.load()
     love.window.setTitle("3D Raycasting")
     love.graphics.setBackgroundColor(0, 0, 0)
+
+    player = Player:new(0, 0, 0)
 
     screenWidth = love.graphics.getWidth()
     screenHeight = love.graphics.getHeight()
@@ -44,30 +40,11 @@ function love.load()
         local ray = Ray:new(player.x, player.y, math.rad(angle + player.angle))
         table.insert(rays, ray)
     end
+
 end
 
 function love.update(dt)
-    local newPlayerX = player.x
-    local newPlayerY = player.y
-
-    if love.keyboard.isDown("up") then
-        newPlayerX = player.x + player.moveSpeed * math.cos(player.angle)
-        newPlayerY = player.y + player.moveSpeed * math.sin(player.angle)
-    elseif love.keyboard.isDown("down") then
-        newPlayerX = player.x - player.moveSpeed * math.cos(player.angle)
-        newPlayerY = player.y - player.moveSpeed * math.sin(player.angle)
-    end
-
-    if not Collisions:checkCollision(newPlayerX, newPlayerY, walls) then
-        player.x = newPlayerX
-        player.y = newPlayerY
-    end
-
-    if love.keyboard.isDown("left") then
-        player.angle = player.angle - player.rotationSpeed
-    elseif love.keyboard.isDown("right") then
-        player.angle = player.angle + player.rotationSpeed
-    end
+    player:update(dt, walls)
 
     for _, ray in ipairs(rays) do
         ray.position.x = player.x
@@ -79,10 +56,6 @@ end
 
 function love.draw()
     love.graphics.setColor(255, 255, 255)
-
-    for _, wall in ipairs(walls) do
-        wall:show()
-    end
 
     local stripWidth = screenWidth / #rays
 
